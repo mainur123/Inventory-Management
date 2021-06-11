@@ -10,17 +10,17 @@
         $id= $_GET['id'];
     } elseif($_POST['Submit']){
         $id= $_POST['id'];
-        $sql= "DELETE FROM products WHERE id='$id' limit 1";
+        $sql= "DELETE FROM products WHERE id='$id' limit 1";    //delete the specific product
         $conn->query($sql);
         header("Location: products.php");
     }
 
-    $sql= "SELECT * from products WHERE id=$id limit 1";
+    $sql= "SELECT * from products WHERE id=$id limit 1";    
     $res= mysqli_fetch_assoc($conn->query($sql));
 
     $img= $res['image'];
 
-    $sql= "SELECT COUNT(id) as total_products from products";
+    $sql= "SELECT COUNT(id) as total_products from products";   //same as product
     $total_product= mysqli_fetch_assoc($conn->query($sql));
 
     $sql= "SELECT SUM(bought) as total_buy from products";

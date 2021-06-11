@@ -6,11 +6,11 @@
     $conn=connect();
 
     $id= $_SESSION['userid'];
-    $sq= "SELECT * FROM users_info WHERE id='$id'";
-    $thisUser= mysqli_fetch_assoc($conn->query($sq));
+    $sq= "SELECT * FROM users_info WHERE id='$id'";     //fetch users information
+    $thisUser= mysqli_fetch_assoc($conn->query($sq));   //connect with db
 
-    if(isset($_POST['submit'])){
-        if($thisUser['password']==$_POST['pass']){
+    if(isset($_POST['submit'])){    // if submitted
+        if($thisUser['password']==$_POST['pass']){  //if password matches
             $sq= "UPDATE users_info SET ";
             if(isset($_POST['uname'])){
                 $uName= $_POST['uname'];
@@ -28,7 +28,7 @@
                 $tmpName= $_FILES['uavtr']['tmp_name'];
                 $uAvtr= $_FILES['uavtr']['name'];
                 $size= $_FILES['uavtr']['size'];
-                if($size<3000000){
+                if($size<3000000){                          //image size should not greater than 3MB
                     $format= explode('.', $uAvtr);
                     $actualName= strtolower($format[0]);
                     $actualFormat= strtolower($format[1]);
@@ -60,8 +60,8 @@
                     }
                 }
             }
-            $sq= substr($sq, 0,-1);
-            $sq .=" WHERE id='$id'";
+            $sq= substr($sq, 0,-1); //substring
+            $sq .=" WHERE id='$id'";    //concate
             $conn->query($sq);
             $m= 'Users Information Successfully Updated!';
         } else{
@@ -70,7 +70,7 @@
     }
 
     $sql= "SELECT * from users_info";
-    $res= $conn->query($sql);
+    $res= $conn->query($sql);   
 
     $sql= "SELECT COUNT(id) as total_products from products";
     $total_product= mysqli_fetch_assoc($conn->query($sql));
@@ -197,7 +197,7 @@
                 </div>
                 <div class="table_container">
                     <h1 style="text-align: center;">Users Table</h1>
-                    <div class="table-responsive">
+                    <div class="table-responsive">          <!-- show users table data -->
                         <table class="table table-dark" id="table" data-toggle="table" data-search="true" data-filter-control="true" data-show-export="true" data-click-to-select="true" data-toolbar="#toolbar">
                             <thead class="thead-light">
                             <tr>
@@ -214,7 +214,7 @@
                             <tbody>
                             <?php
                             if(mysqli_num_rows($res)>0) {
-                                while ($row = mysqli_fetch_assoc($res)) {
+                                while ($row = mysqli_fetch_assoc($res)) { //show name, email, active or inactive and last login time
 
                                     echo '<tr>';
                                     echo '<td>'. $row['name'].'</td>';
