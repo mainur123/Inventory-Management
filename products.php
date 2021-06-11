@@ -1,27 +1,27 @@
 <?php
-    session_start();
+    session_start();    //session started
     include ('navigation.php');
 
     $m='';
     $conn=connect();
     $id= $_SESSION['userid'];
-    $sq= "SELECT * FROM users_info WHERE id='$id'";
-    $thisUser= mysqli_fetch_assoc($conn->query($sq));
+    $sq= "SELECT * FROM users_info WHERE id='$id'";     //select individual user by id
+    $thisUser= mysqli_fetch_assoc($conn->query($sq));   //connect with db
 
-    if(isset($_POST['submit'])){
+    if(isset($_POST['submit'])){        //if submit
         $pName= $_POST['pname'];
         $buy= $_POST['buy'];
-        $img= $_FILES['pimage'];
+        $img= $_FILES['pimage'];    //for image
         $iName= $img['name'];
         $tempName= $img['tmp_name'];
-        $format= explode('.', $iName);
-        $actualName= strtolower($format[0]);
+        $format= explode('.', $iName);  //image format
+        $actualName= strtolower($format[0]);   
         $actualFormat= strtolower($format[1]);
-        $allowedFormats= ['jpg', 'png', 'jpeg', 'gif'];
+        $allowedFormats= ['jpg', 'png', 'jpeg', 'gif']; //define image formats
 
         if(in_array($actualFormat, $allowedFormats)){
             $location= 'Uploads/'.$actualName.'.'.$actualFormat;
-            $sql= "INSERT INTO products(name, bought, image, created_at) VALUES ('$pName', '$buy', '$location', current_timestamp())";
+            $sql= "INSERT INTO products(name, bought, image, created_at) VALUES ('$pName', '$buy', '$location', current_timestamp())";  //insert into db
             if($conn->query($sql)===true){
                 move_uploaded_file($tempName, $location);
                 $m= "Product Inserted!";
@@ -30,16 +30,16 @@
 
     }
 
-    $sql= "SELECT * from products";
-    $res= $conn->query($sql);
+    $sql= "SELECT * from products"; //select all products
+    $res= $conn->query($sql);   //query connect with db
 
-    $sql= "SELECT COUNT(id) as total_products from products";
+    $sql= "SELECT COUNT(id) as total_products from products";   //same as dashboard
     $total_product= mysqli_fetch_assoc($conn->query($sql));
 
-    $sql= "SELECT SUM(bought) as total_buy from products";
+    $sql= "SELECT SUM(bought) as total_buy from products";      //same as dashboard
     $total_buy= mysqli_fetch_assoc($conn->query($sql));
 
-    $sql= "SELECT SUM(sold) as total_sell from products";
+    $sql= "SELECT SUM(sold) as total_sell from products";       //same as dashboard
     $total_sell= mysqli_fetch_assoc($conn->query($sql));
 ?>
 <html>
@@ -134,6 +134,7 @@
                         <div class="table-responsive">
                             <table class="table table-dark" id="table" data-toggle="table" data-search="true" data-filter-control="true" data-show-export="true" data-click-to-select="true" data-toolbar="#toolbar">
                                 <thead class="thead-light">
+                                <!-- product table attributes -->
                                 <tr>
                                     <th data-field="name" data-filter-control="select" data-sortable="true">Product Name</th>
                                     <th data-field="bought" data-filter-control="select" data-sortable="true"> Bought</th>
@@ -145,8 +146,8 @@
                                 <tbody>
                                     <?php
                                         if(mysqli_num_rows($res)>0){
-                                            while($row= mysqli_fetch_assoc($res)){
-                                                $stock= $row['bought']-$row['sold'];
+                                            while($row= mysqli_fetch_assoc($res)){ 
+                                                $stock= $row['bought']-$row['sold'];    //product table values
                                                 echo "<tr>";
                                                 echo "<td>".$row['name']."</td>";
 

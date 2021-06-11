@@ -1,15 +1,15 @@
 <?php
-    session_start();
+    session_start();    //session started
     $_SESSION['user']='';
     $_SESSION['userid']='';
     include "auth/connection.php";
-    $conn= connect();
+    $conn= connect();   //store db connection in a variable
     $m= '';
-    if(isset($_POST['submit'])){
+    if(isset($_POST['submit'])){    //if submitted
         $uName= mysqli_real_escape_string($conn, $_POST['uname']);
         $pass= mysqli_real_escape_string($conn, $_POST['pass']);
         
-        $sql= "SELECT * FROM users_info WHERE u_name='$uName' and password='$pass'";
+        $sql= "SELECT * FROM users_info WHERE u_name='$uName' and password='$pass'";    // query for matching the username and password
         $res= $conn->query($sql);
 
         if(mysqli_num_rows($res)==1){
@@ -50,7 +50,7 @@
                         <div class="pass-input">
                             <input name="pass" type="password" class="login-input" placeholder="Password" id="my-password" required>
                             <span class="eye" onclick="myFunction()">
-                              <i id="hide-1" class="fas fa-eye-slash"></i>
+                              <i id="hide-1" class="fas fa-eye-slash"></i>  <!-- for eye logo -->
                               <i id="hide-2" class="fas fa-eye"></i>
                             </span>
                         </div>
@@ -72,7 +72,7 @@
 </html>
 
 <script>
-    function myFunction() {
+    function myFunction() {         // for login input logo feature
         var x = document.getElementById("my-password");
         var y = document.getElementById("hide-1");
         var z = document.getElementById("hide-2");

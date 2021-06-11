@@ -1,26 +1,26 @@
 <?php
-    session_start();
+    session_start();    //session start
     include 'navigation.php';
 
     $conn= connect();
     $m='';
 
     $id= $_SESSION['userid'];
-    $sq= "SELECT * FROM users_info WHERE id='$id'";
-    $thisUser= mysqli_fetch_assoc($conn->query($sq));
+    $sq= "SELECT * FROM users_info WHERE id='$id'"; //select specific user row using id
+    $thisUser= mysqli_fetch_assoc($conn->query($sq));   //connect with db
     if(isset($_GET['id'])){
         $id= $_GET['id'];
         $sql= "SELECT * from products WHERE id='$id' limit 1";
         $res= mysqli_fetch_assoc($conn->query($sql));
 
-        $img= $res['image'];
+        $img= $res['image'];    //image
     }elseif(isset($_POST['id'])){
         $id =$_POST['id'];
         $pName= $_POST['pname'];
         $buy= intval($_POST['buy']);
         $sell= intval($_POST['sell']);
 
-        if($buy>=$sell){
+        if($buy>=$sell){    //sell should not greater then bought product
             if(isset($_POST['Submit'])){
                 $sql= "UPDATE products SET name= '$pName', bought= '$buy', sold= '$sell' WHERE id = '$id'";
                 if($conn->query($sql)===true){
@@ -38,13 +38,13 @@
 
 
 
-    $sql= "SELECT COUNT(id) as total_products from products";
+    $sql= "SELECT COUNT(id) as total_products from products";   //same as dashboard
     $total_product= mysqli_fetch_assoc($conn->query($sql));
 
-    $sql= "SELECT SUM(bought) as total_buy from products";
+    $sql= "SELECT SUM(bought) as total_buy from products";  //same as dashboard
     $total_buy= mysqli_fetch_assoc($conn->query($sql));
 
-    $sql= "SELECT SUM(sold) as total_sell from products";
+    $sql= "SELECT SUM(sold) as total_sell from products";   //same as dashboard
     $total_sell= mysqli_fetch_assoc($conn->query($sql));
 ?>
 
@@ -60,31 +60,31 @@
                     <section style="padding-left: 20px; padding-right: 20px;">
                         <div class="col-sm-3">
                             <div class="card card-green">
-                                <h3>Total Products </h3>
+                                <h3>Total Products </h3>            <!-- SHOW THE QUANTITY -->
                                 <h2 style="color: #282828; text-align: center;"><?php echo $total_product?$total_product['total_products']: 'No Products available in stock'; ?></h2>
                             </div>
                         </div>
                         <div class="col-sm-3">
                             <div class="card card-yellow" >
-                                <h3>Products Bought </h3>
+                                <h3>Products Bought </h3>           <!-- SHOW THE QUANTITY -->
                                 <h2 style="color: #282828; text-align: center;"><?php echo $total_buy?$total_buy['total_buy']: 'You haven\'t bought anything yet'; ?></h2>
                             </div>
                         </div>
                         <div class="col-sm-3 " >
                             <div class="card card-blue" >
-                                <h3>Products Sold </h3>
+                                <h3>Products Sold </h3>             <!-- SHOW THE QUANTITY -->
                                 <h2 style="color: #282828; text-align: center;"><?php echo $total_sell?$total_sell['total_sell']: 'You haven\'t sold anything yet'; ?></h2>
                             </div>
                         </div>
                         <div class="col-sm-3" >
                             <div class="card card-red" >
-                                <h3>Available Stock </h3>
+                                <h3>Available Stock </h3>            <!-- SHOW THE QUANTITY -->
                                 <h2 style="color: #282828; text-align: center;"><?php echo $total_buy?$total_buy['total_buy']-$total_sell['total_sell']: 'You haven\'t invested anything yet'; ?></h2>
                             </div>
                         </div>
                     </section>
                 </div>
-                <div class="pt-20 pl-20">
+                <div class="pt-20 pl-20">          <!-- For Edit Product -->
                     <div class="col-sm-12" style="background-color: #282828; ">
                         <div class="text-center">
                             <h1 > Edit Product</h1>

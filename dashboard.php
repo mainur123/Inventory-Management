@@ -4,21 +4,21 @@
 
     $date= date('Y-m-d', strtotime('-7 days'));
     //die ($date);
-    $conn=connect();
+    $conn=connect();   
     $id= $_SESSION['userid'];
-    $sq= "SELECT * FROM users_info WHERE id='$id'";
-    $thisUser= mysqli_fetch_assoc($conn->query($sq));
+    $sq= "SELECT * FROM users_info WHERE id='$id'";     //select individual user by id
+    $thisUser= mysqli_fetch_assoc($conn->query($sq));   //connect with db
 
     $sql= "SELECT * from products WHERE updated_at>'$date'";
     $prod= $conn->query($sql);
 
-    $sql= "SELECT COUNT(*) as products FROM products";
+    $sql= "SELECT COUNT(*) as products FROM products";      //count the products
     $total_products= mysqli_fetch_assoc($conn->query($sql));
 
-    $sql= "SELECT SUM(bought) as total_bought FROM products";
+    $sql= "SELECT SUM(bought) as total_bought FROM products";   //count the bought products
     $total_bought= mysqli_fetch_assoc($conn->query($sql));
 
-    $sql= "SELECT SUM(sold) as total_sold FROM products";
+    $sql= "SELECT SUM(sold) as total_sold FROM products";   //count the sold products
     $total_sold= mysqli_fetch_assoc($conn->query($sql));
 
     $stock_available= $total_bought['total_bought']-$total_sold['total_sold'];
@@ -38,25 +38,25 @@
                 <div class="col-sm-3">
                     <div class="card card-green">
                         <h3>Total Products </h3>
-                        <h2 style="color: #282828; text-align: center;"><?php echo $total_products['products'] ?></h2>
+                        <h2 style="color: #282828; text-align: center;"><?php echo $total_products['products'] ?></h2>  <!-- show number of product in card -->
                     </div>
                 </div>
                 <div class="col-sm-3">
                     <div class="card card-yellow" >
                         <h3>Products Bought </h3>
-                        <h2 style="color: #282828; text-align: center;"><?php echo $total_bought['total_bought'] ?></h2>
+                        <h2 style="color: #282828; text-align: center;"><?php echo $total_bought['total_bought'] ?></h2>    <!-- --show total bought product-->
                     </div>
                 </div>
                 <div class="col-sm-3 " >
                     <div class="card card-blue" >
                         <h3>Products Sold </h3>
-                        <h2 style="color: #282828; text-align: center;"><?php echo $total_sold['total_sold'] ?></h2>
+                        <h2 style="color: #282828; text-align: center;"><?php echo $total_sold['total_sold'] ?></h2>    <!-- show total sold product -->
                     </div>
                 </div>
                 <div class="col-sm-3" >
                     <div class="card card-red" >
                         <h3>Available Stock </h3>
-                        <h2 style="color: #282828; text-align: center;"><?php echo $stock_available ?></h2>
+                        <h2 style="color: #282828; text-align: center;"><?php echo $stock_available ?></h2> <!-- show total stock available -->
                     </div>
                 </div>
             </section>
@@ -65,6 +65,7 @@
             <div class="table_container">
                 <h1 style="text-align: center;">Products Table</h1>
                 <div class="table-responsive">
+                    <!-- start table to show data -->
                     <table class="table table-dark" id="table" data-toggle="table" data-search="true" data-filter-control="true" data-show-export="true" data-click-to-select="true" data-toolbar="#toolbar">
                         <thead class="thead-light">
                         <tr>
@@ -76,7 +77,7 @@
                         </thead>
                         <tbody>
                         <?php
-                            if(mysqli_num_rows($prod)>0){
+                            if(mysqli_num_rows($prod)>0){   //if any product exists then show values
                                 while($row= mysqli_fetch_assoc($prod)){
                                     $stock= $row['bought']-$row['sold'];
                                     echo "<tr>";

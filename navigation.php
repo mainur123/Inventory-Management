@@ -32,7 +32,7 @@
         <nav class="navbar navbar-inverse navbar-fixed-top" id="navbar-inverse">
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav" style="color: white;">
-                    <li><a class="active" href="dashboard.php">MyInventory</a></li>
+                    <li><a class="active" href="dashboard.php">MyInventory</a></li> <!-- link all files -->
                     <li><a href="products.php">Products</a></li>
                     <li><a href="users.php">Users</a></li>
                     <?php

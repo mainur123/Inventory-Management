@@ -4,7 +4,7 @@
 
     $user= $_POST['username'];
 
-    $sql= "SELECT * FROM users_info WHERE u_name='$user'";
+    $sql= "SELECT * FROM users_info WHERE u_name='$user'";  //select individual user name
     $flag= $conn->query($sql);
 
     $retData['success']= false;

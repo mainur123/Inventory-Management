@@ -1,27 +1,27 @@
 <?php
-    session_start();
+    session_start();    //start session
     include 'navigation.php';
 
     $conn= connect();
     $id= $_SESSION['userid'];
-    $sq= "SELECT * FROM users_info WHERE id='$id'";
-    $thisUser= mysqli_fetch_assoc($conn->query($sq));
+    $sq= "SELECT * FROM users_info WHERE id='$id'";     
+    $thisUser= mysqli_fetch_assoc($conn->query($sq));   //connect with db
     if(isset($_GET['id'])){
         $id= $_GET['id'];
 
-        $sql= "SELECT * from products WHERE id=$id limit 1";
+        $sql= "SELECT * from products WHERE id=$id limit 1";    //select specific user id
         $res= mysqli_fetch_assoc($conn->query($sql));
 
         $img= $res['image'];
     }
 
-    $sql= "SELECT COUNT(id) as total_products from products";
+    $sql= "SELECT COUNT(id) as total_products from products";   //same as dashboard
     $total_product= mysqli_fetch_assoc($conn->query($sql));
 
-    $sql= "SELECT SUM(bought) as total_buy from products";
+    $sql= "SELECT SUM(bought) as total_buy from products";      //same as dashboard
     $total_buy= mysqli_fetch_assoc($conn->query($sql));
 
-    $sql= "SELECT SUM(sold) as total_sell from products";
+    $sql= "SELECT SUM(sold) as total_sell from products";       //same as dashboard
     $total_sell= mysqli_fetch_assoc($conn->query($sql));
 
 ?>
@@ -38,7 +38,7 @@
                     <div class="col-sm-3">
                         <div class="card card-green">
                             <h3>Total Products </h3>
-                            <h2 style="color: #282828; text-align: center;"><?php echo $total_product?$total_product['total_products']: 'No Products available in stock'; ?></h2>
+                            <h2 style="color: #282828; text-align: center;"><?php echo $total_product?$total_product['total_products']: 'No Products available in stock'; ?></h2>     <!-- Same -->
                         </div>
                     </div>
                     <div class="col-sm-3">

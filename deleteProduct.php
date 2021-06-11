@@ -1,14 +1,14 @@
 <?php
-    session_start();
-    include 'navigation.php';
+    session_start();    //start session
+    include 'navigation.php';   //include navigation bar
 
-    $conn= connect();
+    $conn= connect();   //declare a variable to store db connection
     $id= $_SESSION['userid'];
     $sq= "SELECT * FROM users_info WHERE id='$id'";
     $thisUser= mysqli_fetch_assoc($conn->query($sq));
     if(isset($_GET['id'])){
         $id= $_GET['id'];
-    } elseif($_POST['Submit']){
+    } elseif($_POST['Submit']){ //if submitted
         $id= $_POST['id'];
         $sql= "DELETE FROM products WHERE id='$id' limit 1";    //delete the specific product
         $conn->query($sql);
